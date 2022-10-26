@@ -28,7 +28,9 @@ const createAuthor = async function (req, res) {
     if (!title) {
       return res.status(400).send({ status: false, msg: "title is required" })
     }
-    let validTitle = ['Mr', 'Mrs', 'Miss']; //validating the title
+    //validating the title
+    let validTitle = ['Mr', 'Mrs', 'Miss']; 
+
     //checking if the title is valid
     if (!validTitle.includes(title)) {
       return res.status(400).send({ status: false, msg: "title should be one of Mr, Mrs, Miss" });
@@ -41,7 +43,7 @@ const createAuthor = async function (req, res) {
     }
     const isEmailAlreadyUsed = await authorModel.findOne({ email });
     if (isEmailAlreadyUsed) {
-      return res.status(400).send({ status: false, msg: 'Provided emailId is already registered' })
+      return res.status(409).send({ status: false, msg: 'Provided emailId is already registered' })
     }
 
     if (!password) {
@@ -68,22 +70,13 @@ const loginAuthor = async function (req, res) {
 
     let author = await authorModel.findOne({ email: emailId, password: password });
     if (!emailId) {
-      return res.status(401).send({
-        status: false,
-        msg: "emailId is required",
-      });
+      return res.status(401).send({status: false,msg: "emailId is required"});
     }
     if (!password) {
-      return res.status(401).send({
-        status: false,
-        msg: "password is required",
-      });
+      return res.status(401).send({ status: false, msg: "password is required"});
     }
     if (!author)
-      return res.status(401).send({
-        status: false,
-        msg: "emailId or the password is not corerct",
-      });
+      return res.status(401).send({status: false,msg:"emailId or the password is not corerct"});
 
 
     let token = jwt.sign(

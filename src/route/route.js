@@ -9,8 +9,8 @@ const validator = require('../middleware/auth.js')
 
 router.post("/authors",authorController.createAuthor);
 router.post("/loginAuthor",authorController.loginAuthor);
-router.get("/getblog",validator.authenticate,blogController.getBlog);
 router.post("/blogs",validator.authenticate,blogController.createBlog);
+router.get("/getblog",validator.authenticate,blogController.getBlog);
 router.put("/updateBlogs/:blogId",validator.authenticate,blogController.updateBlogs);
 
 router.delete("/deleteBlog/:blogId",validator.authenticate,blogController.deleteBlog);
